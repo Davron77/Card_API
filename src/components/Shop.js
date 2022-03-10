@@ -42,6 +42,43 @@ function Shop() {
     setIsBasketShow(!isBasketShow);
   };
 
+  const removeFromBasket = (itemID) => {
+    const newOrder = order.filter((item) => item.id !== itemID);
+    setOrder(newOrder);
+  };
+
+  const incrementQuantity = (itemID) => {
+    const newOrder = order.map((el) => {
+      if (el.id === itemID) {
+        const newQuantity = el.quantity + 1;
+        return {
+          ...el,
+          quantity: newQuantity,
+        };
+      } else {
+        return el;
+      }
+    });
+
+    setOrder(newOrder);
+  };
+
+  const decrementQuantity = (itemID) => {
+    const newOrder = order.map((el) => {
+      if (el.id === itemID) {
+        const newQuantity = el.quantity - 1;
+        return {
+          ...el,
+          quantity: newQuantity >= 0 ? newQuantity : 0,
+        };
+      } else {
+        return el;
+      }
+    });
+
+    setOrder(newOrder);
+  };
+
   useEffect(() => {
     fetch(API_URL, {
       headers: {
@@ -64,7 +101,13 @@ function Shop() {
         <GoodList goods={goods} addToBasket={addToBasket} />
       )}
       {isBasketShow && (
-        <BasketList order={order} handleBasketShow={handleBasketShow} />
+        <BasketList
+          order={order}
+          handleBasketShow={handleBasketShow}
+          removeFromBasket={removeFromBasket}
+          incrementQuantity={incrementQuantity}
+          decrementQuantity={decrementQuantity}
+        />
       )}
     </div>
   );
