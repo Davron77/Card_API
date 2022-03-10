@@ -4,10 +4,37 @@ import { API_URL, API_KEY } from "../api";
 //Import Components
 import Loader from "./Loader";
 import GoodList from "./GoodList";
+import Cart from "../Cart";
 
 function Shop() {
   const [goods, setGoods] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [order, setOrder] = useState([]);
+
+  const addToBasket = (item) => {
+    const itemIndex = order.findIndex((orderItem) => orderItem.id === item.id);
+
+    if (itemIndex < 0) {
+      const newItem = {
+        ...item,
+        quantity: 1,
+      };
+      setOrder([...order, newItem]);
+    } else {
+      const newOrder = order.map((orderItem, index) => {
+        if (index === itemIndex) {
+          return {
+            ...orderItem,
+            quantity: orderItem.quantity + 1,
+          };
+        } else {
+          return item;
+        }
+      });
+
+      setOrder(newOrder);
+    }
+  };
 
   useEffect(() => {
     fetch(API_URL, {
@@ -24,7 +51,12 @@ function Shop() {
 
   return (
     <div className="container content">
-      {loading ? <Loader /> : <GoodList goods={goods} />}
+      <Cart quantity={order.length} />
+      {loading ? (
+        <Loader />
+      ) : (
+        <GoodList goods={goods} addToBasket={addToBasket} />
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 
 function GoodItem(props) {
-  const { id, name, description, price, full_background } = props;
+  const { id, name, description, price, full_background, addToBasket } = props;
   return (
     <div className="card" id={id}>
       <div className="card-image">
@@ -12,7 +12,12 @@ function GoodItem(props) {
         <p>{description}</p>
       </div>
       <div className="card-action">
-        <button className="btn">Buy</button>
+        <button
+          className="btn"
+          onClick={() => addToBasket({ id, name, price })}
+        >
+          Buy
+        </button>
         <span className="right">{price}$</span>
       </div>
     </div>

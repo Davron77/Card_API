@@ -25,3 +25,19 @@ nav {
 .right {
   font-size: 1.5rem;
 }
+
+.cart {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  cursor: pointer;
+  z-index: 5;
+  padding: 1rem;
+}
+
+@media (min-height: 767px) {
+  .cart {
+    top: 5rem;
+    bottom: unset;
+  }
+}
