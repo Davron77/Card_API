@@ -6,6 +6,7 @@ import Loader from "./Loader";
 import GoodList from "./GoodList";
 import Cart from "../Cart";
 import BasketList from "./BasketList";
+import { toast } from "react-toastify";
 
 function Shop() {
   const [goods, setGoods] = useState([]);
@@ -36,6 +37,8 @@ function Shop() {
 
       setOrder(newOrder);
     }
+
+    toast.success("Goods added to basket successfully");
   };
 
   const handleBasketShow = () => {
@@ -45,6 +48,7 @@ function Shop() {
   const removeFromBasket = (itemID) => {
     const newOrder = order.filter((item) => item.id !== itemID);
     setOrder(newOrder);
+    toast.error("Goods delete from basket successfully");
   };
 
   const incrementQuantity = (itemID) => {
